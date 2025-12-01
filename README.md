@@ -42,12 +42,13 @@ C:/php/lampp-docker8/htdocs/
 - getDetail(): 特定のテーブルに対して詳細表示用データを検索し１件のみ返す
     
 - insert($data): 特定のテーブルに対しデータを1行追加する。
-    -引数: $data, 配列, 例：['name'=>'foo', 'age'=>18, 'tel'=>'12345'] 戻り値：追加した行数
+    - 引数: $data, 配列, 例：['name'=>'foo', 'age'=>18, 'tel'=>'12345'] 
 
 - update($data, $where): 特定のテーブルに対してデータを更新する。
-    引数: $data, 配列, 例：['name'=>'foo', 'age'=>18, 'tel'=>'12345']
-    　　　$where, 条件を表す文字列, 例：'sid=k22rs999'
+    - 引数:
+        - $data, 配列, 例：['name'=>'foo', 'age'=>18, 'tel'=>'12345']
+        - $where, 条件を表す文字列, 例：'sid=k22rs999'
     
 
 - delete($where): 特定のテーブルに対して条件を満たすデータを削除する。
-     引数: $where, 条件を表す文字列, 例：'sid=k22rs999'
+     - 引数: $where, 条件を表す文字列, 例：'sid=k22rs999'
