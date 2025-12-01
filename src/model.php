@@ -3,12 +3,8 @@ class Model
 {
     protected $table;
     protected $db;
-
     protected static $conf = [
-        'host'   => 'mysql',
-        'user'   => 'root',
-        'pass'   => 'root',
-        'dbname' => 'test'
+        'host'=>'mysql','user'=>'root','pass'=>'root','dbname'=>'test'
     ];
 
     protected static $codes = [
