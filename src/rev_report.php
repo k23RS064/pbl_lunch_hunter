@@ -68,9 +68,9 @@ $reports = [
         <p>通報内容：<?php echo htmlspecialchars($r['通報理由']) ?></p>
 
         <!-- 遷移ボタン（ID を URL パラメータとして渡す） -->
-        <button type="button" onclick="location.href='detail.php?id=<?php $r['id'] ?>'">詳細</button>
-        <button type="button" onclick="location.href='cancel.php?id=<?php $r['id'] ?>'">取り消し</button>
-        <button type="button" onclick="location.href='delete.php?id=<?php $r['id'] ?>'">削除</button>
+        <button type="button" onclick="location.href='detail.php?id=<?php $r['id']?? 0 ?>'">詳細</button>
+        <button type="button" onclick="location.href='cancel.php?id=<?php $r['id']?? 0 ?>'">取り消し</button>
+        <button type="button" onclick="location.href='delete.php?id=<?php $r['id']?? 0 ?>'">削除</button>
     </div>
 
 </section>
