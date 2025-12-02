@@ -53,7 +53,7 @@ $reports = [
             <div class="star">
                 <p>評価：<?php echo $r['評価点']?></p>
                 <?php for ($i = 1; $i <= 5; $i++): ?>
-                    <?php $i<=$r['評価点'] ? "★" : "☆" ?>
+                    <?php echo $i<=(int)$r['評価点'] ? "★" : "☆" ?>
                 <?php endfor; ?>
             </div>
 
