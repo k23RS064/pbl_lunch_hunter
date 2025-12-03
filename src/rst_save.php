@@ -43,13 +43,13 @@ if(!$error){
         $_SESSION['message'] = "登録に失敗しました。";
     }
     // 登録結果ページまたは一覧ページへ遷移
-    header('Location: rst_list.php');
+    header('Location:?do=rst_list');
     exit();
 
 } else {
     // 入力エラー時はフォームに戻す
     $_SESSION['old'] = $_POST;
     $_SESSION['error'] = true;
-    header('Location: rst_input.php');
+    header('Location:?do=rst_input');
     exit();
 }
