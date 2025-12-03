@@ -1,5 +1,19 @@
 <?php
 require_once 'model.php';
+session_start();
+
+$error = false;
+if(empty($_POST['rst_name'])
+|| empty($_POST['rst_address'])
+|| empty($_POST['start_time'])
+|| empty($_POST['end_time'])
+|| empty($_POST['tel_num']) 
+|| empty($_POST['rst_holiday']))
+{
+    $error = true;
+}
+
+if($error == false){
 $rst_save = new Restaurant();
 
 $holiday = array_sum($_POST['rst_holiday'] ?? []);
@@ -25,3 +39,9 @@ if(isset($_POST['rst_pay'])){
 $rst_save->insert($data);
 
 header('Location:rst_list.php');
+} else {
+    $_SESSION['old'] = $_POST;
+    $_SESSION['error'] = $error;
+    header('Location:rst_input.php');
+    exit();
+}
