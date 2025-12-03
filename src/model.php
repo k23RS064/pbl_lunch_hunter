@@ -1,4 +1,5 @@
 <?php
+//SQL処理
 class Model
 {
     protected $table;
