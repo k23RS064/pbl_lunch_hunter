@@ -41,14 +41,7 @@ $reports = array(
         '投稿主'=> '投稿主',
     ]
 );
-
-
-// sort が desc なら逆順
-$sort = $_GET['sort'] ?? 'asc';
-$sortedreports = ($sort === 'desc') ? array_reverse($reports) : $reports;
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -66,13 +59,11 @@ $sortedreports = ($sort === 'desc') ? array_reverse($reports) : $reports;
 <div class="top-btn">
     <button type="button">通報取り消し一覧</button>
     <button type="button" id="hidbtn">非表示</button>
-    <button type="button">
-        <a href="?sort=<?= $sort === 'asc' ? 'desc' : 'asc' ?>" class="btn">並び替え（<?php echo $sort === 'asc' ? '古い順' : '新着順' ?>）</a>
-    </button>
+    <button type="button" id="sortBtn">並び替え（新着順）</button>
 </div>
 
 
-
+<div id="reportArea">
 <?php foreach ($sortedreports as $report): ?>
     <section class="report-box">
 
@@ -113,6 +104,58 @@ $sortedreports = ($sort === 'desc') ? array_reverse($reports) : $reports;
         </div>
     </section>
 <?php endforeach; ?>
+</div>
+
+<script>
+    let reports = <?php echo json_encode($reports); ?>;
+    let isDesc = false;
+
+    const renderReports = () => {
+        const area = document.getElementById("reportArea");
+        area.innerHTML = "";
+
+        reports.forEach(report => {
+            area.innerHTML += `
+            <section class="report-box">
+                <div class="left">
+                    <h3>${report['アカウント名']}</h3>
+                    <div class="star">
+                        <p>評価：${report['評価点']}</p>
+                        ${"★".repeat(report['評価点']) + "☆".repeat(5 - report['評価点'])}
+                    </div>
+                    <p>${report['コメント']}</p>
+                    <div class="small">
+                        <p>投稿主：${report['通報者']}</p>
+                        <p>通報者：${report['投稿主']}</p>
+                    </div>
+                </div>
+                <div class="right">
+                    <h3>#${report['ジャンル']}</h3>
+                    <p>通報内容：${report['通報理由']}</p>
+                    <button type="button" onclick="location.href='detail.php?id=${report['id']}'">詳細</button>
+                    <button type="button" onclick="location.href='cancel.php?id=${report['id']}'">取り消し</button>
+                    <button class="btn0" popovertarget="my">削除</button>
+                </div>
+            </section>
+            `;
+        });
+    };
+
+    // 初回描画
+    renderReports();
+
+    // 並び替えボタン
+    document.getElementById("sortBtn").onclick = () => {
+        isDesc = !isDesc;
+        reports.reverse();
+
+        document.getElementById("sortBtn").innerText = isDesc 
+            ? "並び替え（古い順）"
+            : "並び替え（新着順）";
+
+        renderReports();
+    };
+</script>
 
 </body>
 </html>
