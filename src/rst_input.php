@@ -7,19 +7,6 @@ $form_action_url = 'store_registration.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunch Hunter - 店舗登録</title>
-    <style>
-        .form-group { margin-bottom: 20px; }
-        .required-star { color: red; margin-left: 5px; font-weight: bold; }
-        .optional-hash { color: blue; margin-left: 5px; font-weight: bold; }
-        .header-menu a { margin-right: 15px; }
-        .registration-container {
-            display: flex;
-            gap: 40px;
-        }
-        .left-col, .right-col {
-            flex: 1;
-        }
-    </style>
 </head>
 <body>
 
