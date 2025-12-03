@@ -13,9 +13,9 @@ $no_header_ouput =[
 ];
 
 if(isset($_SESSION['usertype_id'])){
-    $do = $_GET['do'] ?? 'user_login';
-} else {
     $do = $_GET['do'] ?? 'rst_list';
+} else {
+    $do = $_GET['do'] ?? 'user_login';
 }
 
 if(in_array($do, $no_header_ouput)){
