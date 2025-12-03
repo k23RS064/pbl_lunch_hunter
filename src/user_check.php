@@ -1,3 +1,4 @@
+//ログインチェック
 <?php
 require_once 'model.php';
 $model = new User();
