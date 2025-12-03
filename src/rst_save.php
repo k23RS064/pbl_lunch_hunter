@@ -1,5 +1,6 @@
 <?php
 require_once 'model.php';
+$rst_save = new User();
 
 $holiday = array_sum($_POST['rst_holiday'] ?? []);
 
@@ -20,5 +21,7 @@ if(isset($_POST['rst_pay'])){
     $pay = array_sum($_POST['rst_pay'] ?? []);
     $data['rst_pay'] = $pay;
 }
+
+$rst_save->insert($data);
 
 header('Location:rst_list.php');
