@@ -141,25 +141,23 @@ require_once 'pg_header.php';
         <div class="store-grid">
             <?php foreach ($mock_stores as $store): ?>
                 <div class="store-card" style="background: white; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onclick="location.href='store_detail.php?id=<?php echo $store['id']; ?>'">
-                    <div class="store-image-container">
-                        <img src="<?php echo h($store['image']); ?>" alt="<?php echo h($store['name']); ?>" class="store-image">
-                        <?php if ($store['has_discount']): ?>
-                            <span class="discount-badge" style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: #dc2626; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem;">
-                                割引
-                            </span>
-                        <?php endif; ?>
-                        <?php if ($store['is_favorite']): ?>
-                            <span style="position: absolute; top: 0.5rem; left: 0.5rem; font-size: 1.5rem;">⭐</span>
-                        <?php endif; ?>
-                    </div>
-                    <div class="store-content">
-                        <div class="store-header">
-                            <h3 class="store-name"><?php echo h($store['name']); ?></h3>
-                            <div class="store-rating">
-                                <span>⭐</span>
-                                <span><?php echo $store['rating']; ?></span>
-                            </div>
-                        </div>
+                    <div class="store-image-container" style="position: relative;">
+                       <img src="<?php echo h($store['image']); ?>" alt="<?php echo h($store['name']); ?>" class="store-image">
+
+                <?php if ($store['has_discount']): ?>
+                  <span class="discount-badge"
+                       style="position: absolute; top: 0.5rem; right: 0.5rem;
+                      background-color: #dc2626; color: white;
+                      padding: 0.25rem 0.5rem;
+                      border-radius: 0.25rem; font-size: 0.75rem;">
+                      割引
+                  </span>
+               <?php endif; ?>
+
+              <?php if ($store['is_favorite']): ?>
+                  <span style="position: absolute; top: 0.5rem; left: 0.5rem; font-size: 1.5rem;">⭐</span>
+              <?php endif; ?>
+           </div>
                         <div class="store-tags">
                             <?php foreach ($store['tags'] as $tag): ?>
                                 <span style="display: inline-block; background-color: #f3f4f6; padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; margin-right: 0.25rem;">
