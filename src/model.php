@@ -163,6 +163,7 @@ class User extends Model
         }
         return $favorite;
     }
+    //Myリスト
     function get_mylist($table,$user_id){
         $sql = "SELECT * FROM {$table} WHERE user_id = {$user_id}";
         $mylist = $this ->query($sql);
