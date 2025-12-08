@@ -220,7 +220,8 @@ class Restaurant extends Model
     function save_genre($rst_id, $genres)
     {
         foreach ($genres as $genre) {
-            return $this->insert([$rst_id, $genre]);
+            $data = [$rst_id,'genre_id' => $genre];
+            return $this->insert($data);
         }
     }
     function get_RstDetail($where)

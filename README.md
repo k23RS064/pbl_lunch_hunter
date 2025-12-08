@@ -82,5 +82,15 @@ http://localhost/pbl_lunch_hunter/?do=pg_lookdata
         - $user_id,ユーザID
 
 - get_RstDetail($where)店舗詳細
-    - 引数：$where, 条件を表す文字列, 例：'rst_id = 1';
+    - 引数：$where, 条件を表す文字列, 例：'rst_id' = '1';
 
+- save_genre($rst_id, $genres)ジャンル記録
+    - 引数：
+        - $rst_id, 登録する店舗のID, 例：'rst_id' = '1';
+        - $genres, 登録するジャンルのID配列, 例：[1,2,3,4]
+
+- get_RevDettail($where)口コミ詳細
+    - 引数：$where, 条件を表す文字列, 例：'rev_id' = '1';
+
+- get_RepoDettail($where)通報栗込み詳細
+    - 引数：$where, 条件を表す文字列, 例：'report_id' = '1';
