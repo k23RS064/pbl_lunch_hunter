@@ -33,42 +33,89 @@ $shops=array(
     ]
 );
 ?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通報済み口コミ一覧</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
 <style>
+    h1{
+        text-align: center;
+    }
+
+    .btn1{
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .info-area{
+        border:solid;
+        border-
+    }
+
+    .info{
+        margin: 30px;
+        display: flex;
+        gap:  30%;
+    }
+    .info1{
+        margin: 30px;
+        display: flex;
+        gap:  30%;
+    }
+
     .shop{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-auto-flow: column;
+        gap: 10px;
+    }
+
+    .item{
+        display: flex;
+        border:solid;
         
     }
+
 </style>
 
 <?php foreach ($infos as $info): ?>
     <div class="main">
         <h1>マイページ</h1>
         <!--ユーザ情報編集btn-->
-        <button onclick="location.href='?do=user_edit.php'">ユーザ情報編集</button>
+        <button class="btn1" onclick="location.href='?do=user_edit.php'">ユーザ情報編集</button> 
     </div>
-    <!--アカウント情報-->
-    <div class="info">
-        <div>
-            <div class="item1">社員ID:</div>
-            <!--<input type="text" placeholder="<?php echo $info['社員番号ID'] ?>"-->
-            <div><?php echo $info['社員番号ID'] ?></div><br>
+    <div class="info-area">   
+        <!--アカウント情報-->
+        <div class="info">
+            <div>
+                <div class="item1">社員ID:</div>
+                <!--<input type="text" placeholder="<?php echo $info['社員番号ID'] ?>"-->
+                <div><?php echo $info['社員番号ID'] ?></div><br>
+            </div>
+            <div>
+                <div class="item1">氏名:</div>
+                <!--<input type="text" placeholder="<?php echo $info['姓'] ?>"><input type="text" placeholder="<?php echo$info['名'] ?>">-->
+                <div><?php echo $info['姓'],$info['名'] ?></div><br>
+            </div>
         </div>
-        <div>
-            <div class="item1">氏名:</div>
-            <!--<input type="text" placeholder="<?php echo $info['姓'] ?>"><input type="text" placeholder="<?php echo$info['名'] ?>">-->
-            <div><?php echo $info['姓'],$info['名'] ?></div><br>
-        </div>
-    </div>
-    <div class="info1">
-        <div>
-            <div class="item1">アカウント名:</div>
-            <!--<input type="text" placeholder="<?php echo $info['アカウント名'] ?>">-->
-            <div><?php echo $info['アカウント名'] ?></div><br>
-        </div>
-        <div>
-            <div class="item1">フリガナ:</div>
-            <!--<input type="text" placeholder="<?php echo $info['セイ']?>"><input type="text" placeholder="<?php echo $info['メイ']?>">-->
-            <div><?php echo $info['セイ'],$info['メイ'] ?></div><br>
+        <div class="info1">
+            <div>
+                <div class="item1">アカウント名:</div>
+                <!--<input type="text" placeholder="<?php echo $info['アカウント名'] ?>">-->
+                <div><?php echo $info['アカウント名'] ?></div><br>
+            </div>
+            <div>
+                <div class="item1">フリガナ:</div>
+                <!--<input type="text" placeholder="<?php echo $info['セイ']?>"><input type="text" placeholder="<?php echo $info['メイ']?>">-->
+                <div><?php echo $info['セイ'],$info['メイ'] ?></div><br>
+            </div>
         </div>
     </div>
 <?php endforeach; ?>
