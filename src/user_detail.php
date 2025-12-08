@@ -2,9 +2,9 @@
 require_once('model.php');
 
 // 店舗情報取得用
-$model_store = new Restaurant();
+$model = new Restaurant();
 // 口コミ情報取得用
-$model_review = new Review();
+$model = new Review();
 
 session_start();
 
