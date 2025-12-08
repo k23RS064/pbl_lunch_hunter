@@ -45,6 +45,7 @@ if(!$error){
         'rst_genre'=> $genre,
         'rst_pay'=> $pay,
         'rst_url'=> $_POST['url'] ?? null,
+
         'photo_file'=> $photo_file,
         'user_id'=> $_POST['user_id'] ?? 1,
         'discount'=> 0
