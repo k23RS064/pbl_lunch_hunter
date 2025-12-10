@@ -9,6 +9,7 @@ $reports = array(
         'コメント'=> '店主が臭い',
         '通報者'=> '九尾 太郎',
         '投稿主'=> '美輪 明宏',
+        '非表示'=>'1',
     ],
     [
         'id'=> '2',
@@ -19,6 +20,7 @@ $reports = array(
         'コメント'=> 'コメント一部',
         '通報者'=> '通報者',
         '投稿主'=> '投稿主',
+        '非表示'=>'0',
     ],
     [
         'id'=> '3',
@@ -29,6 +31,7 @@ $reports = array(
         'コメント'=> '店主が臭い',
         '通報者'=> '九尾 太郎',
         '投稿主'=> '美輪 明宏',
+        '非表示'=>'1',
     ],
     [
         'id'=> '4',
@@ -39,6 +42,7 @@ $reports = array(
         'コメント'=> 'コメント一部',
         '通報者'=> '通報者',
         '投稿主'=> '投稿主',
+        '非表示'=>'0',
     ]
 );
 ?>
@@ -95,7 +99,7 @@ $reports = array(
         font-size:12px
     }
 
-    .btn2{
+    .btn{
         display: flex;
         flex-direction: column;
     }
@@ -105,6 +109,7 @@ $reports = array(
         margin-left: 50%;
         box-shadow: 5px 5px 5px;
     }
+
 
     .star-rating {
     --rate: 0;        /* 0〜5 の小数(0.1 刻みなど)を直接入れる */
@@ -180,8 +185,8 @@ $reports = array(
 
         <div class="right">
             <h3>#<?php echo htmlspecialchars($report['ジャンル']) ?></h3>
-            <p>通報内容：<?php echo htmlspecialchars($report['通報理由']) ?></p>
-            <div class="btn2">
+            <div>通報内容：<?php echo htmlspecialchars($report['通報理由']) ?></div>
+            <div class="btn02">
                 <button type="button" onclick="location.href='?do=rev_detail.php'"><a href="?do=rev_detail.php">詳細</button>
                 <button type="button" onclick="location.href='cancel.php'">取り消し</button>
                 <button class="btn0" popovertarget="my-<?= $report['id'] ?>">削除</button>
@@ -201,13 +206,18 @@ $reports = array(
 
 <script>
     let reports = <?php echo json_encode($reports); ?>;
-    let isDesc = false;
+    let isDesc = false; 
+    let hideMode = false;
 
     const renderReports = () => {
         const area = document.getElementById("reportArea");
         area.innerHTML = "";
 
-        reports.forEach(report => {
+        let list = hideMode ? reports.filter(r => r['非表示'] === '1') : reports;
+
+        if (isDesc) list = [...list].reverse();
+
+        list.forEach(report => {
             area.innerHTML += `
             <section class="report-box">
                 <div class="left">
@@ -242,20 +252,28 @@ $reports = array(
         });
     };
 
+    
+
     // 初回描画
     renderReports();
 
     // 並び替えボタン
     document.getElementById("sortBtn").onclick = () => {
-        isDesc = !isDesc;
-        reports.reverse();
+    isDesc = !isDesc;
 
-        document.getElementById("sortBtn").innerText = isDesc 
-            ? "並び替え（古い順）"
-            : "並び替え（新着順）";
+    document.getElementById("sortBtn").innerText = isDesc 
+        ? "並び替え（古い順）"
+        : "並び替え（新着順）";
 
+    renderReports();
+    };
+
+    document.getElementById("hidbtn").onclick = () => {
+        hideMode = !hideMode;
+        document.getElementById("hidbtn").innerText = hideMode ? "全件表示" : "非表示";
         renderReports();
     };
+
 </script>
 
 </body>

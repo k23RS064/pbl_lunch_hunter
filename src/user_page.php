@@ -1,15 +1,13 @@
 <?php
 require_once('model.php');
 $model = new User();
-//$rstModel= new Restaurant();
+$rstModel= new Restaurant();
 
 //userのセッションを確認
 $user_id = $_SESSION['user_id'];
 
 //userのデータを取得
 $mydata = $model -> getDetail("user_id='{$user_id}'");
-
-//$rstdata= $rstModel -> getList();
 
 //print_r($mydata);
 //姓名を結合
