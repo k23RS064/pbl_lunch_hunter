@@ -131,10 +131,10 @@ if($_SESSION['usertype_id']==1){
     <div>
         <span style="font-size: 2em; color: yellow;">
         <?php
-        for ($i=0; $i<$review['eval_pint']; $i++){
+        for ($i=0; $i<$review['eval_point']; $i++){
             echo '★';
         }
-        for ($i=5; $i>$review['eval_pint']; $i--){
+        for ($i=5; $i>$review['eval_point']; $i--){
             echo '☆';
         }
         ?>
