@@ -1,4 +1,10 @@
 <?php
+
+
+
+
+
+
 $reports = array(
     [
         'id'=> '1',
@@ -110,7 +116,7 @@ $reports = array(
     .pop{
         margin-top: 40vh;
         margin-left: 50%;
-        box-shadow: 5px 5px 5px;
+        box-shadow: 0.5px 0.5px 3px;
     }
 
 
@@ -188,7 +194,8 @@ $reports = array(
 
         <div class="right">
             <h3>#<?php echo htmlspecialchars($report['ジャンル']) ?></h3>
-            <div>通報内容：<?php echo htmlspecialchars($report['通報理由']) ?></div>
+            <div>通報内容：</div>
+            <div><?php echo htmlspecialchars($report['通報理由']) ?></div>
 
             <div class="pop" popover="manual" id="my-<?= $report['id'] ?>">
                 <p>本当に削除しますか？</p>
@@ -260,7 +267,7 @@ $reports = array(
                     </div>
                 </div> 
             <div class="btn02">
-                <button type="button" onclick="location.href='detail.php?id=${report['id']}'">詳細</button>
+                <button type="button" onclick="location.href='?do=rev_detail.php'"><a href="?do=rev_detail.php">詳細</a></button>                
                 <button type="button">取り消し</button>
                 <button class="btn0" popovertarget="my-<?= $report['id'] ?>">削除</button>
             </div>       
