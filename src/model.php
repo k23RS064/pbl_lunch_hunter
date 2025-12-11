@@ -258,17 +258,28 @@ class Restaurant extends Model
         $rst['rst_genre'] = $this->query($sql);
         return $rst;
     }
+    function rst_insert($data){
+        $rst = $this->insert($data);
+        return $this->db->insert_id;
+    }
 }
 class Genre extends Model
 {
     protected $table = "t_rst_genre";
     function save_genre($rst_id, $genres)
     {
-        foreach ($genres as $genre) {
-            $data = ['rst_id'=>$rst_id,'genre_id' => $genre];
-            $this->insert($data);
+        // 既存のジャンルを削除
+        $this->delete(['rst_id' => $rst_id]);
+
+        $rows = 0;
+        // 新しいジャンルを挿入
+        foreach ($genres as $genre_id) {
+            $rows += $this->insert([
+                'rst_id'   => $rst_id,
+                'genre_id' => intval($genre_id)
+            ]);
         }
-        return true;
+        return $rows;
     }
 }
 class Review extends Model
@@ -297,4 +308,9 @@ class Report extends Model
         $repo = $this->getDetail($wherestr);
         return $repo;
     }
+}
+
+class Favorite extends Model
+{
+    protected $table = "t_favorite";
 }

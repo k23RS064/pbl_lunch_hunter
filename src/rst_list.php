@@ -23,8 +23,8 @@ $rst_list_raw = $rst->getList();
 //お気に入り検索
 $user_FavoriteList = [];
 if ($user_id) {
-    $favorites = $user->get_favorite($user_id); // お気に入り店舗の詳細リスト
-    $user_FavoriteList = array_column($favorites, 'rst_id'); // rst_idだけ取り出す
+  $favorites = $user->get_favorite($user_id); // お気に入り店舗の詳細リスト
+  $user_FavoriteList = array_column($favorites, 'rst_id'); // rst_idだけ取り出す
 }
 
 // 詳細データ取得＋検索条件でフィルタ
@@ -50,9 +50,7 @@ foreach ($rst_list_raw as $r) {
   $rst_list_filtered[] = $detail;
 }
 
-// ----------------------
 // 並び順
-// ----------------------
 if ($sort === 'popularity') {
   usort($rst_list_filtered, function ($a, $b) use ($review) {
     $ra = $review->getList("rst_id = " . intval($a['rst_id']));
@@ -67,9 +65,7 @@ if ($sort === 'popularity') {
   });
 }
 
-// ----------------------
 // ページネーション
-// ----------------------
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $page = max($page, 1);
 $limit = 15;
@@ -140,7 +136,39 @@ $displayList = array_slice($rst_list_filtered, $start, $limit);
         <div class="col-md-4 mb-4">
           <div class="store-card p-3 h-100 border rounded shadow-sm">
             <img src="<?= htmlspecialchars($s['photo1'] ?? 'https://via.placeholder.com/300x150') ?>" class="img-fluid mb-3" alt="外観写真">
-            <h4><?= htmlspecialchars($s['rst_name']) ?> <?= $s['discount'] ? '<span style="color:green;">割引有</span>' : '' ?></h4>
+            <h4><a href="?do=rst_detail&rst_id=<?= intval($s['rst_id']) ?>"><?= htmlspecialchars($s['rst_name']) ?></a>
+              <?php if (!empty($_SESSION['usertype_id']) && $_SESSION['usertype_id'] === '9') : ?>
+                <!-- 管理者用：割引変更ボタン -->
+                <div class="discount-label" style="position:absolute; top:10px; right:10px;">
+                  <?php if ($s['discount']) : ?>
+                    <form method="post" action="?do=rst_save" style="display:inline;">
+                      <input type="hidden" name="mode" value="discount">
+                      <input type="hidden" name="rst_id" value="<?= $s['rst_id'] ?>">
+                      <input type="hidden" name="discount" value="0">
+                      <button type="submit" class="btn btn-sm btn-warning">割引取り消し</button>
+                    </form>
+                  <?php else : ?>
+                    <form method="post" action="?do=rst_save" style="display:inline;">
+                      <input type="hidden" name="mode" value="discount">
+                      <input type="hidden" name="rst_id" value="<?= $s['rst_id'] ?>">
+                      <input type="hidden" name="discount" value="1">
+                      <button type="submit" class="btn btn-sm btn-success">割引適用</button>
+                    </form>
+                  <?php endif; ?>
+                </div>
+              <?php else : ?>
+                <!-- 一般ユーザ用：割引表示のみ -->
+                <?php if ($s['discount']) : ?>
+                  <div class="discount-label" style="position:absolute; top:10px; right:10px; color:green; font-weight:bold;">
+                    割引あり
+                  </div>
+                <?php else : ?>
+                  <div class="discount-label" style="position:absolute; top:10px; right:10px; color:red; font-weight:bold;">
+                    割引なし
+                  </div>
+                <?php endif; ?>
+              <?php endif; ?>
+            </h4>
 
             <!-- 評価 -->
             <div class="rating mb-2">
