@@ -1,13 +1,17 @@
 <?php
 require_once('model.php');
 $model = new User();
-$rstModel= new Restaurant();
+$rst= new Restaurant();
+$review= new Review();
 
 //userのセッションを確認
 $user_id = $_SESSION['user_id'];
 
 //userのデータを取得
 $mydata = $model -> getDetail("user_id='{$user_id}'");
+//店舗情報
+$rst_list_raw = $rst->getList();
+
 
 
 //print_r($mydata);
@@ -20,7 +24,7 @@ $mydata['kana'] = $model -> userkana($mydata);
 
 
 
-
+/*
 $shops=array(
     [
     '店舗名'=>'丸亀製麵',
@@ -42,7 +46,7 @@ $shops=array(
     '0'=>'割引有',
     '1'=>'割引無',
     ],
-);
+);*/
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -159,38 +163,45 @@ $shops=array(
 <!--投稿店舗-->
 <div class="shop">
     <!--$shops as $shop-->
-    <?php foreach ($shops as $shop): ?>
+    <?php foreach ($rst_list_raw as $s): ?>
+        <!--ジャンル-->
+        <?php  $detail = $rst->get_RstDetail(['rst_id' => $s['rst_id']]); ?>
+        <?php $genreList = array_column($detail['rst_genre'] ?? [], 'genre');?>
             <div class="item">
                 <div class="shopi">
-                    <h4>店舗名:<?php echo $shop['店舗名'] ?></h4>
+                    <h4>店舗名:<?php echo $s['rst_name'] ?></h4>
                     <div class="star">
-                        <!--<div>評価：</div>
-                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                            <?php echo $i<=(int)$shop['評価'] ? "★" : "☆" ?>
-                        <?php endfor; ?>
-                        <div><?php echo $shop['評価']?></div>-->
-
-                        <div>評価：</div>
-                        <?php $rate = (float)$shop['評価']; ?>
-                        <div class="star-rating" style="--rate: <?= $rate ?>;"></div>
-                        <div><?= htmlspecialchars($shop['評価']) ?></div>
-
+                        <div class="rating mb-2">
+                            <?php
+                            $review_data = $review->getList("rst_id = " . intval($s['rst_id']));
+                            $rating = 0;
+                            if (!empty($review_data)) {
+                                for ($i = 0; $i < count($review_data); $i++) {
+                                $rating += intval($review_data[$i]['eval_point']);
+                                }
+                                $rating = $rating / count($review_data);
+                            }
+                            $stars = round($rating);
+                            ?>
+                            <?= str_repeat('★', $stars) ?><?= str_repeat('☆', 5 - $stars) ?> <?= $stars ?>
+                        </div>
                     </div>
-                    <div>ジャンル:<?php echo $shop['ジャンル'] ?></div>
-                    <div><?php echo $shop['0']?></div>
+                    <div>ジャンル:<?php echo implode('',$genreList) ?></div>
+                    <div>
+                        <?php 
+                        if ($s['discount']===0) {
+                            echo '割引なし';
+                        }else{
+                            echo '割引あり';
+                        }
+                        ?>
+                    </div>
                 </div>
                 <div class="phot">
-                    <a href="/src/detail.php">
+                    <a href="?do=detail">
                         <img class="img" src="" alt="未登録">
                     </a>
                 </div>
             </div>
-
-            <script>
-                <div class="star">
-                    <p>評価：${shop['評価']}</p>
-                    <div class="star-rating" style="--rate:${parseFloat(shop['評価'])}"></div>
-                </div>
-            </script>
     <?php endforeach; ?>
 </div>
