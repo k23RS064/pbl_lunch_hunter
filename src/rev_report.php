@@ -90,6 +90,11 @@ $reports = array(
         margin:10px;
         gap:20%;
     }
+
+    .report-box:hover{
+        box-shadow:0.5px 0.5px 3px;
+    }
+
     .star{
         display: flex;
         gap:0.2px;
@@ -154,7 +159,7 @@ $reports = array(
 </style>
 
 
-<h1 class="report_title">通報済み口コミ一覧表示</h1>
+<h1 class="report_title">通報済み口コミ一覧</h1>
 
 <div class="top-btn">
     <button type="button" id="cancelFilterBtn">通報取り消し一覧</button>

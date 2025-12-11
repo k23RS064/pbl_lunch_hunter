@@ -12,41 +12,22 @@ $mydata = $model -> getDetail("user_id='{$user_id}'");
 //店舗情報
 $rst_list_raw = $rst->getList();
 
-
+$favorite = $model->get_favorite($mydata['user_id']);
 
 //print_r($mydata);
-
 
 //姓名を結合
 $mydata['name'] = $model -> username($mydata);
 $mydata['kana'] = $model -> userkana($mydata);
 
+$fav_rst_list = [];
+if(!empty($favorite)){
+    foreach ($favorite as $f) {
+        $rst_id = $f['rst_id'];
+        $fav_rst_list[] = $rst->get_RstDetail(['rst_id' => $rst_id]);
+    }
+}
 
-
-
-/*
-$shops=array(
-    [
-    '店舗名'=>'丸亀製麵',
-    '評価'=>'3.2',
-    'ジャンル'=>'うどん 和食',
-    '0'=>'割引有',
-    ],
-    [
-    '店舗名'=>'あああ',
-    '評価'=>'1.4',
-    'ジャンル'=>'いいい',
-    '0'=>'割引有',
-    '1'=>'割引無',
-    ],
-    [
-    '店舗名'=>'あああ',
-    '評価'=>'1.5',
-    'ジャンル'=>'いいい',
-    '0'=>'割引有',
-    '1'=>'割引無',
-    ],
-);*/
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -162,15 +143,16 @@ $shops=array(
     </div>
 <!--投稿店舗-->
 <div class="shop">
-    <!--$shops as $shop-->
-    <?php foreach ($rst_list_raw as $s): ?>
-        <!--ジャンル-->
+    <?php foreach ($fav_rst_list as $s): ?>
+        <!--ジャンル情報取得-->
         <?php  $detail = $rst->get_RstDetail(['rst_id' => $s['rst_id']]); ?>
         <?php $genreList = array_column($detail['rst_genre'] ?? [], 'genre');?>
             <div class="item">
                 <div class="shopi">
                     <a href="?do=detail"><h4>店舗名:<?php echo $s['rst_name'] ?></h4></a>
+                    <!--評価情報取得、表示-->
                     <div class="star">
+                        <!--星-->
                         <div class="rating mb-2">
                             <?php
                             $review_data = $review->getList("rst_id = " . intval($s['rst_id']));
@@ -186,17 +168,20 @@ $shops=array(
                             <?= str_repeat('★', $stars) ?><?= str_repeat('☆', 5 - $stars) ?> <?= $stars ?>
                         </div>
                     </div>
-                    <div>ジャンル:<?php echo implode('',$genreList) ?></div>
-                    <div>
+                    <!--ジャンル表示-->
+                    <div>ジャンル：<?php echo implode('',$genreList) ?></div>
+                    <!--割引情報-->
+                    <div class="discount">
                         <?php 
                         if ($s['discount']===0) {
-                            echo '割引なし';
-                        }else{
                             echo '割引あり';
+                        }else{
+                            echo '割引なし';
                         }
                         ?>
                     </div>
                 </div>
+                <!--店舗写真-->
                 <div class="phot">
                     <a href="?do=detail">
                         <img class="img" src="" alt="未登録">
