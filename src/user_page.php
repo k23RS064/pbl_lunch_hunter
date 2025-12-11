@@ -20,11 +20,11 @@ $favorite = $model->get_favorite($mydata['user_id']);
 $mydata['name'] = $model -> username($mydata);
 $mydata['kana'] = $model -> userkana($mydata);
 
-$fav_rst_list = [];
+$favorite_list = [];
 if(!empty($favorite)){
     foreach ($favorite as $f) {
         $rst_id = $f['rst_id'];
-        $fav_rst_list[] = $rst->get_RstDetail(['rst_id' => $rst_id]);
+        $favorite_list[] = $rst->get_RstDetail(['rst_id' => $rst_id]);
     }
 }
 
@@ -143,7 +143,7 @@ if(!empty($favorite)){
     </div>
 <!--投稿店舗-->
 <div class="shop">
-    <?php foreach ($fav_rst_list as $s): ?>
+    <?php foreach ($favorite_list as $s): ?>
         <!--ジャンル情報取得-->
         <?php  $detail = $rst->get_RstDetail(['rst_id' => $s['rst_id']]); ?>
         <?php $genreList = array_column($detail['rst_genre'] ?? [], 'genre');?>
