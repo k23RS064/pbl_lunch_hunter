@@ -169,7 +169,7 @@ $shops=array(
         <?php $genreList = array_column($detail['rst_genre'] ?? [], 'genre');?>
             <div class="item">
                 <div class="shopi">
-                    <h4>店舗名:<?php echo $s['rst_name'] ?></h4>
+                    <a href="?do=detail"><h4>店舗名:<?php echo $s['rst_name'] ?></h4></a>
                     <div class="star">
                         <div class="rating mb-2">
                             <?php
