@@ -303,25 +303,42 @@ class User extends Model
         $user['userkana'] = $this->userkana($user);
         return $user;
     }
-    public function get_userlist_filtered($search_key = '', $suspended_only = false, $orderby = null) {
+    public function get_userlist_filtered($search_key = '', $suspended_only = false, $orderby = null)
+    {
         $where = [];
-    
-        if (!empty($search_key)) {
+
+        if ($search_key !== '') {
             $escaped_key = $this->db->real_escape_string($search_key);
-            $where[] = "(t_user.id LIKE '%{$escaped_key}%' OR t_user.account LIKE '%{$escaped_key}%')";
+            $where[] = "("
+                . "user_id LIKE '%{$escaped_key}%' OR "
+                . "user_account LIKE '%{$escaped_key}%' OR "
+                . "user_l_name LIKE '%{$escaped_key}%' OR "
+                . "user_f_name LIKE '%{$escaped_key}%' OR "
+                . "user_l_kana LIKE '%{$escaped_key}%' OR "
+                . "user_f_kana LIKE '%{$escaped_key}%'"
+                . ")";
         }
-    
+
+        // 停止中か通常か
         if ($suspended_only) {
-            $where[] = "t_user.suspended = 1";
+            $where[] = "usertype_id = 2";
+        } else {
+            $where[] = "usertype_id = 1";
         }
-    
+
+        // ORDER BY
         $order = '';
-        if ($orderby === 'id') $order = 't_user.id ASC';
-        elseif ($orderby === 'address') $order = 't_user.kana ASC';
-    
+        if ($orderby === 'id') {
+            $order = 'user_id ASC';
+        } elseif ($orderby === 'address') {
+            $order = "CONCAT(user_l_kana, user_f_kana) ASC";
+        }
+
+        // get_userlist に渡す
         return $this->get_userlist($where, $order);
     }
-    
+
+
     //ユーザリスト
     function get_userlist($where = 1, $orderby = null, $limit = 0, $offset = 0)
     {
