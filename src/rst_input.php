@@ -10,6 +10,8 @@
 
     // 前回入力値
     $old = $_SESSION['old'] ?? [];
+    unset($_SESSION['old']);
+
     $old_open  = $old['open_time']  ?? null;
     $old_close = $old['close_time'] ?? null;
     $old_holiday = $old['holiday'] ?? [];
@@ -29,8 +31,6 @@
         $times[] = sprintf("%d:00", $h);
         $times[] = sprintf("%d:30", $h);
     }
-    unset($_SESSION['old']);
-    unset($_SESSION['error']);
     ?>
 
     <form action="?do=rst_save" method="post" enctype="multipart/form-data">
@@ -73,10 +73,12 @@
                 <div class="form-group">
                     <label for="open_time">開店時間</label>
                     <span class="required-star">*必須</span><br>
-                    <select name="open_time" id="open_time" <?php foreach ($times as $time) :
-                                                                $selected = ($old_open === $time || (!$old_open && $time === $default_open)) ? 'selected' : '';
-                                                            ?> <option value="<?= $time ?>" <?= $selected ?>><?= $time ?></option>
-                    <?php endforeach; ?>
+                    <select name="open_time" id="open_time">
+                        <?php foreach ($times as $time) :
+                            $selected = ($old_open === $time || (!$old_open && $time === $default_open)) ? 'selected' : '';
+                        ?>
+                            <option value="<?= $time ?>" <?= $selected ?>><?= $time ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
