@@ -15,7 +15,8 @@ class Model
         'rst_holiday' => ['1' => '日', '2' => '月', '4' => '火', '8' => '水', '16' => '木', '32' => '金', '64' => '土', '128' => '年中無休', '256' => '未定'],
         'rst_pay' => ['1' => '現金', '2' => 'QRコード', '4' => '電子マネー', '8' => 'クレジットカード'],
         'report_reason' => ['1' => '写真', '2' => 'コメント', '3' => '両方'],
-        'report_state' => ['1' => '未処理', '2' => '削除', '3' => '取り消し']
+        'report_state' => ['1' => '未処理', '2' => '削除', '3' => '取り消し'],
+        'rst_discount'  => ['0' => '割引なし', '1' => '割引あり']
     ];
 
     function __construct($conf = null)
@@ -385,10 +386,10 @@ class User extends Model
         $favorite = [];
         foreach ($favorites as $fav) {
             $rst_id = $fav['rst_id'];
-            $sql = "SELECT * FROM t_rstinfo WHERE rst_id = {$rst_id}";
-            $result = $this->query($sql);
+            $rst = new Restaurant();
+            $result = $rst->get_RstDetail(['rst_id'=>$rst_id]);
             if (!empty($result)) {
-                $favorite[] = $result[0];
+                $favorite[] = $result;
             }
         }
         return $favorite;
@@ -413,29 +414,26 @@ class Restaurant extends Model
         }
         $wherestr = implode(' AND ', $data);
         $rst = $this->getDetail($wherestr);
-        // holidays（ビットフラグ）をラベル配列に変換
-        $flag = (int)$rst['rst_holiday'];  // DB の値（10進）
-        $holidays = [];
 
+        $flag = (int)$rst['rst_holiday']; 
+        $holidays = [];
         foreach (self::$codes['rst_holiday'] as $bit => $label) {
             if ($flag & (int)$bit) {
                 $holidays[] = $label;
             }
         }
-
-        // 配列で格納（例： ['月','水','金']）
         $rst['holidays'] = $holidays;
 
-        $flag = (int)$rst['rst_pay'];  // DBの値（10進）
+        $flag = (int)$rst['rst_pay'];
         $pays = [];
-
         foreach (self::$codes['rst_pay'] as $bit => $label) {
             if ($flag & (int)$bit) {
                 $pays[] = $label;
             }
         }
-
         $rst['pays'] = $pays;
+
+        $rst['discount_label'] = self::getValue($rst['discount'], 'rst_discount', '不明');
 
         $rst_id = $rst['rst_id'];
         $sql = "SELECT * FROM t_rst_genre NATURAL JOIN t_genre WHERE rst_id = {$rst_id}";

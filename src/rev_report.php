@@ -10,7 +10,7 @@ if ($filter === "cancel") {
 } elseif ($filter === "hidden") {
     $reports = $repo->getList("report_state = 2");
 } else {
-    $reports = $repo->getList();
+    $reports = $repo->getList("report_state != 2 AND report_state != 3");
 }
 ?>
 <style>
