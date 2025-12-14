@@ -119,7 +119,7 @@ if($_SESSION['usertype_id']==1){
 
             echo '<img src="data:' . $mime . ';base64,' . $img64 . '" style="max-width:300px;" />';
         } else {
-            echo "画像なし";
+            echo '<img src="png\noimage.png" style="max-width:100px;" />';
         }
         echo '</td><td style="text-align:center;">';
         if (!empty($review['photo2'])) {
@@ -128,7 +128,7 @@ if($_SESSION['usertype_id']==1){
 
             echo '<img src="data:' . $mime . ';base64,' . $img64 . '" style="max-width:300px;" />';
         } else {
-            echo "画像なし";
+            echo '<img src="png\noimage.png" style="max-width:100px;" />';
         }
         echo '</td><td style="text-align:center;">';
         if (!empty($review['photo3'])) {
@@ -137,7 +137,7 @@ if($_SESSION['usertype_id']==1){
 
             echo '<img src="data:' . $mime . ';base64,' . $img64 . '" style="max-width:300px;" />';
         } else {
-            echo "画像なし";
+            echo '<img src="png\noimage.png" style="max-width:100px;" />';
         }
         ?>
         </td>
