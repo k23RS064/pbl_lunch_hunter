@@ -1,7 +1,7 @@
 INSERT INTO t_user
  (user_id,user_l_name,user_f_name,user_l_kana,user_f_kana,user_account,password,usertype_id)
 VALUES
- ('u0001','テスト','ユーザ','テスト','ユーザ','テスト','1234','1')
+ ('test','テスト','ユーザ','テスト','ユーザ','テスト','1234','1')
 ,('admin','管理','者','カンリ','シャ','管理者','5678','9')
 ;
 
